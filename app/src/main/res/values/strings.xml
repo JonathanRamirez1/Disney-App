@@ -2,4 +2,11 @@
     <string name="app_name">Disney App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- User -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="no_account">You do not have an account?</string>
+    <string name="sign_up_here">Sign up here</string>
 </resources>
