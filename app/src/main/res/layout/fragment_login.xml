@@ -80,7 +80,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/materialButtonLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -94,7 +94,6 @@
             </com.google.android.material.button.MaterialButton>
 
             <LinearLayout
-                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -105,7 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialButton"
+                app:layout_constraintTop_toBottomOf="@+id/materialButtonLogin"
                 app:layout_constraintVertical_bias="1.0">
 
                 <TextView
@@ -116,7 +115,7 @@
                     android:textSize="18sp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/textViewRegister"
+                    android:id="@+id/materialButtonGoRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

@@ -9,4 +9,11 @@
     <string name="login">LOGIN</string>
     <string name="no_account">You do not have an account?</string>
     <string name="sign_up_here">Sign up here</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Do you already have an account?</string>
+    <string name="log_in_here">log in here</string>
+    <string name="choose_your_role">Choose your role</string>
+    <string name="user">User</string>
+    <string name="admin">Admin</string>
 </resources>
