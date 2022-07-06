@@ -1,9 +1,8 @@
-package com.jonathan.disneyapp.models
+package com.jonathan.disneyapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class UserDTO(
-   // @SerializedName("id") val id: Long,
+data class User(
     @SerializedName("username") val username: String,
     @SerializedName("email") val email: String,
     @SerializedName("password") val password: String,
