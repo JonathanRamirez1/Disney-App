@@ -44,8 +44,14 @@ class RegisterFragment : Fragment() {
     private fun setObservers() {
         registerViewModel.isRegister.observe(viewLifecycleOwner, { isRegister ->
             if (isRegister) {
-                binding.progressBarLoading.isVisible = isRegister
                 view?.let { launchLoginFragment(it) }
+            }
+        })
+        registerViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
+            if (isLoading) {
+                binding.progressBarLoading.isVisible = isLoading
+            } else {
+                binding.progressBarLoading.isVisible = false
             }
         })
     }
@@ -76,14 +82,7 @@ class RegisterFragment : Fragment() {
                 if (username.length >= 3) {
                     if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         if (password.length >= 6) {
-                            if (userRole.isChecked || adminRole.isChecked) {
-                                user = User(username, email, password, setupRoles(userRole, adminRole))
-                                lifecycleScope.launch {
-                                    registerViewModel.onRegisterUser(user)
-                                }
-                            } else {
-                                Toast.makeText(context, "Selecciona por lo menos un Role", Toast.LENGTH_SHORT).show()
-                            }
+                            userRegister(username, email, password, userRole, adminRole)
                         } else {
                             Toast.makeText(context, "Minimo 6 caracteres para la contraseña", Toast.LENGTH_SHORT).show()
                         }
@@ -97,6 +96,24 @@ class RegisterFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Ningun campo puede estar vacio", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun userRegister(
+        username: String,
+        email: String,
+        password: String,
+        userRole: MaterialCheckBox,
+        adminRole: MaterialCheckBox
+    ) {
+        if (userRole.isChecked || adminRole.isChecked) {
+            //TODO DEUDA TECNICA: INJECTAR EL MODEL USER
+            user = User(username, email, password, setupRoles(userRole, adminRole))
+            lifecycleScope.launch {
+                registerViewModel.onRegisterUser(user)
+            }
+        } else {
+            Toast.makeText(context, "Selecciona por lo menos un Role", Toast.LENGTH_SHORT).show()
         }
     }
 
