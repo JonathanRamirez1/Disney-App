@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.jonathan.disneyapp.data.model.User
 import com.jonathan.disneyapp.data.repository.UserRepository
 import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +17,7 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 
     val isRegister = MutableLiveData<Boolean>()
     val isLoading = MutableLiveData<Boolean>()
-    val isError = MutableLiveData<Boolean>()
+    val isError = MutableLiveData<String>()
 
     fun onRegisterUser(users: User) {
         viewModelScope.launch {
@@ -27,7 +28,9 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
                     isRegister.postValue(true)
                 }.onError {
                     isLoading.postValue(false)
-                    isError.postValue(true)
+                    isError.postValue(response.errorBody()!!.string())
+                }.onFailure {
+                    isLoading.postValue(false)
                 }
         }
     }

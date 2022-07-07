@@ -1,5 +1,6 @@
 package com.jonathan.disneyapp.ui.view.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -19,6 +20,12 @@ import com.jonathan.disneyapp.data.model.User
 import com.jonathan.disneyapp.ui.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
+import android.widget.Button
+import android.widget.TextView
+
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -54,6 +61,24 @@ class RegisterFragment : Fragment() {
                 binding.linearLayoutLoading.isVisible = false
             }
         })
+        registerViewModel.isError.observe(viewLifecycleOwner, { error ->
+            view?.let { setSnackBar(it, getErrorMessage(error)) }
+        })
+    }
+    private fun setSnackBar(view: View, messageResponse: String) {
+        val snackBar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
+        val customSnackView: View = layoutInflater.inflate(R.layout.custom_snackbar, null)
+        snackBar.view.setBackgroundColor(Color.TRANSPARENT)
+        val snackBarLayout = snackBar.view as SnackbarLayout
+        snackBarLayout.setPadding(0, 0, 0, 0)
+        val buttonOk: Button = customSnackView.findViewById(R.id.ButtonOk)
+        val message: TextView = customSnackView.findViewById(R.id.textViewResponse)
+        message.text = messageResponse
+        buttonOk.setOnClickListener {
+            snackBar.dismiss()
+        }
+        snackBarLayout.addView(customSnackView, 0)
+        snackBar.show()
     }
 
     private fun launchLoginFragment(view: View) {
@@ -128,5 +153,10 @@ class RegisterFragment : Fragment() {
             roles.add(adminRole.text.toString().lowercase())
         }
         return roles
+    }
+
+    private fun getErrorMessage(message: String): String {
+        val response = JSONObject(message)
+        return response.getString("message")
     }
 }
