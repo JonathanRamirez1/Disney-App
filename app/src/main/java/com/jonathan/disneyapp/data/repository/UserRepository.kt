@@ -2,13 +2,15 @@ package com.jonathan.disneyapp.data.repository
 
 import com.jonathan.disneyapp.data.model.User
 import com.jonathan.disneyapp.api.ApiService
+import com.jonathan.disneyapp.api.IoDispatcher
 import com.skydoves.sandwich.ApiResponse
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class UserRepository(private val apiService: ApiService) {
+class UserRepository @Inject constructor(private val apiService: ApiService, @IoDispatcher private val ioDispatcher: CoroutineDispatcher) {
 
-    suspend fun registerUser(user: User): ApiResponse<User> = withContext(Dispatchers.IO) {
+    suspend fun registerUser(user: User): ApiResponse<User> = withContext(ioDispatcher) {
         apiService.registerUser(user)
     }
 }

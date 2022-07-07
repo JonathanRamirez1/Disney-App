@@ -49,9 +49,9 @@ class RegisterFragment : Fragment() {
         })
         registerViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
             if (isLoading) {
-                binding.progressBarLoading.isVisible = isLoading
+                binding.linearLayoutLoading.isVisible = isLoading
             } else {
-                binding.progressBarLoading.isVisible = false
+                binding.linearLayoutLoading.isVisible = false
             }
         })
     }

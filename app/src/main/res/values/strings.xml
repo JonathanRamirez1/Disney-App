@@ -16,4 +16,5 @@
     <string name="choose_your_role">Choose your role</string>
     <string name="user">User</string>
     <string name="admin">Admin</string>
+    <string name="registering">Registering…</string>
 </resources>
