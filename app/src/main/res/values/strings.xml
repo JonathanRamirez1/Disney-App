@@ -18,4 +18,11 @@
     <string name="user">User</string>
     <string name="admin">Admin</string>
     <string name="registering">Registering…</string>
+    <string name="ok">OK</string>
+
+    <!-- Home -->
+    <string name="movies">Movies</string>
+    <string name="movies_description">Explora las peliculas que Disney App tiene para ti!!!</string>
+    <string name="characters">Characters</string>
+    <string name="characters_description">Explora los personajes que Disney App tiene para ti!!!</string>
 </resources>
