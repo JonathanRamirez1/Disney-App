@@ -16,22 +16,22 @@ import androidx.navigation.Navigation
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.jonathan.disneyapp.R
 import com.jonathan.disneyapp.databinding.FragmentRegisterBinding
-import com.jonathan.disneyapp.data.model.User
+import com.jonathan.disneyapp.data.model.Register
 import com.jonathan.disneyapp.ui.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import android.widget.Button
 import android.widget.TextView
+import com.jonathan.disneyapp.utils.MessageResponse
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var navController: NavController
-    private lateinit var user: User
+    private lateinit var register: Register
 
     private val registerViewModel: RegisterViewModel by viewModels()
 
@@ -62,7 +62,7 @@ class RegisterFragment : Fragment() {
             }
         })
         registerViewModel.error.observe(viewLifecycleOwner, { error ->
-            view?.let { setSnackBar(it, getErrorMessage(error)) }
+            view?.let { setSnackBar(it, MessageResponse.getErrorMessage(error)) }
         })
         registerViewModel.connectivity.observe(viewLifecycleOwner, { connectivity ->
             view?.let { setSnackBar(it, connectivity) }
@@ -137,9 +137,9 @@ class RegisterFragment : Fragment() {
     ) {
         if (userRole.isChecked || adminRole.isChecked) {
             //TODO DEUDA TECNICA: INJECTAR EL MODEL USER
-            user = User(username, email, password, setupRoles(userRole, adminRole))
+            register = Register(username, email, password, setupRoles(userRole, adminRole))
             lifecycleScope.launch {
-                registerViewModel.onRegisterUser(user)
+                registerViewModel.onRegisterUser(register)
             }
         } else {
             Toast.makeText(context, "Selecciona por lo menos un Role", Toast.LENGTH_SHORT).show()
@@ -157,10 +157,5 @@ class RegisterFragment : Fragment() {
             roles.add(adminRole.text.toString().lowercase())
         }
         return roles
-    }
-
-    private fun getErrorMessage(message: String): String {
-        val response = JSONObject(message)
-        return response.getString("message")
     }
 }

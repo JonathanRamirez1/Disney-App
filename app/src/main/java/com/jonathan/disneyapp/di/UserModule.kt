@@ -1,7 +1,7 @@
 package com.jonathan.disneyapp.di
 
-import com.jonathan.disneyapp.data.repository.UserRepository
-import com.jonathan.disneyapp.data.repository.UserRepositoryImpl
+import com.jonathan.disneyapp.data.repository.RegisterRepository
+import com.jonathan.disneyapp.data.repository.RegisterRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository = userRepositoryImpl
+    fun provideRegisterRepository(registerRepositoryImpl: RegisterRepositoryImpl): RegisterRepository = registerRepositoryImpl
 }

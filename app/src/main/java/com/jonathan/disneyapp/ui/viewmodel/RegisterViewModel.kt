@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jonathan.disneyapp.data.model.User
-import com.jonathan.disneyapp.data.repository.UserRepository
+import com.jonathan.disneyapp.data.model.Register
+import com.jonathan.disneyapp.data.repository.RegisterRepository
 import com.jonathan.disneyapp.utils.NetworkHelper
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onFailure
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val registerRepository: RegisterRepository,
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
@@ -36,11 +36,11 @@ class RegisterViewModel @Inject constructor(
     val connectivity: LiveData<String>
         get() = _connectivity
 
-    fun onRegisterUser(users: User) {
+    fun onRegisterUser(users: Register) {
         viewModelScope.launch {
             _isLoading.postValue(true)
             if (networkHelper.isNetworkConnected()) {
-                userRepository.registerUser(users)
+                registerRepository.registerUser(users)
                     .onSuccess {
                         _isLoading.postValue(false)
                         _isRegister.postValue(true)
