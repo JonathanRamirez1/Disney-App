@@ -1,5 +1,6 @@
-package com.jonathan.disneyapp.api
+package com.jonathan.disneyapp.di
 
+import com.jonathan.disneyapp.data.api.ApiService
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides

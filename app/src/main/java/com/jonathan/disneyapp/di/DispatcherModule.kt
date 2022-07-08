@@ -1,4 +1,4 @@
-package com.jonathan.disneyapp.api
+package com.jonathan.disneyapp.di
 
 import dagger.Module
 import dagger.Provides

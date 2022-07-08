@@ -1,4 +1,4 @@
-package com.jonathan.disneyapp.api
+package com.jonathan.disneyapp.data.api
 
 import com.jonathan.disneyapp.data.model.User
 import com.skydoves.sandwich.ApiResponse

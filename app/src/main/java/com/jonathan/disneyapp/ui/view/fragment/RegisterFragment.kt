@@ -26,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import android.widget.Button
 import android.widget.TextView
 
-
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
@@ -52,6 +51,7 @@ class RegisterFragment : Fragment() {
         registerViewModel.isRegister.observe(viewLifecycleOwner, { isRegister ->
             if (isRegister) {
                 view?.let { launchLoginFragment(it) }
+                Toast.makeText(context, "Usuario registrado existosamente", Toast.LENGTH_LONG).show()
             }
         })
         registerViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
@@ -61,18 +61,22 @@ class RegisterFragment : Fragment() {
                 binding.linearLayoutLoading.isVisible = false
             }
         })
-        registerViewModel.isError.observe(viewLifecycleOwner, { error ->
+        registerViewModel.error.observe(viewLifecycleOwner, { error ->
             view?.let { setSnackBar(it, getErrorMessage(error)) }
         })
+        registerViewModel.connectivity.observe(viewLifecycleOwner, { connectivity ->
+            view?.let { setSnackBar(it, connectivity) }
+        })
     }
+
     private fun setSnackBar(view: View, messageResponse: String) {
         val snackBar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
         val customSnackView: View = layoutInflater.inflate(R.layout.custom_snackbar, null)
-        snackBar.view.setBackgroundColor(Color.TRANSPARENT)
         val snackBarLayout = snackBar.view as SnackbarLayout
-        snackBarLayout.setPadding(0, 0, 0, 0)
         val buttonOk: Button = customSnackView.findViewById(R.id.ButtonOk)
         val message: TextView = customSnackView.findViewById(R.id.textViewResponse)
+        snackBar.view.setBackgroundColor(Color.TRANSPARENT)
+        snackBarLayout.setPadding(0, 0, 0, 0)
         message.text = messageResponse
         buttonOk.setOnClickListener {
             snackBar.dismiss()
