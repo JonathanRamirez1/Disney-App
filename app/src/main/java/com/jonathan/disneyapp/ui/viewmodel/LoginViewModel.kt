@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jonathan.disneyapp.data.model.Login
+import com.jonathan.disneyapp.data.model.LoginModel
 import com.jonathan.disneyapp.data.repository.LoginRepository
 import com.jonathan.disneyapp.utils.NetworkHelper
 import com.skydoves.sandwich.onError
@@ -36,14 +36,19 @@ class LoginViewModel @Inject constructor(
     val connectivity: LiveData<String>
         get() = _connectivity
 
-    fun onLoginUser(login: Login) {
+    private val _roles = MutableLiveData<ArrayList<String>>()
+    val roles: LiveData<ArrayList<String>>
+        get() = _roles
+
+    fun onLoginUser(loginModel: LoginModel) {
         viewModelScope.launch {
             _isLoading.postValue(true)
             if (networkHelper.isNetworkConnected()) {
-                loginRepository.loginUser(login)
+                loginRepository.loginUser(loginModel)
                     .onSuccess {
                         _isLoading.postValue(false)
                         _isLogin.postValue(true)
+                        _roles.postValue(response.body()?.roles)
                     }.onError {
                         _isLoading.postValue(false)
                         _error.postValue(response.errorBody()!!.string())

@@ -3,6 +3,7 @@ package com.jonathan.disneyapp.ui.view.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import com.jonathan.disneyapp.R
-import com.jonathan.disneyapp.data.model.Login
+import com.jonathan.disneyapp.data.model.LoginModel
 import com.jonathan.disneyapp.databinding.FragmentLoginBinding
 import com.jonathan.disneyapp.ui.view.activity.HomeActivity
 import com.jonathan.disneyapp.ui.viewmodel.LoginViewModel
@@ -29,9 +30,12 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
-    private lateinit var login: Login
+    private lateinit var loginModel: LoginModel
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val bundle = Bundle()
+    private val admin : String = "admin"
+    private val user : String = "user"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -55,6 +59,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun setObservers() {
+        loginViewModel.roles.observe(viewLifecycleOwner, { roles ->
+            roles.forEach { role ->
+                if (role == "ROLE_ADMIN") {
+                    bundle.putString("roleAdmin", admin)
+                  //  activity?.intent?.putExtras(bundle)
+                    Log.e("LOGIN", "visible $admin")
+                } else if (role == "ROLE_USER") {
+                    bundle.putString("roleUser", user)
+                   // activity?.intent?.putExtras(bundle)
+                    Log.e("LOGIN", "gone: $user")
+                }
+            }
+        })
         loginViewModel.isLogin.observe(viewLifecycleOwner, { isLogin ->
             if (isLogin) {
                 setDestinyView()
@@ -102,9 +119,9 @@ class LoginFragment : Fragment() {
             val password: String = binding.textInputEditTextPassword.text.toString()
 
             if (username.isNotEmpty() && password.isNotEmpty()) {
-                login = Login(username, password)
+                loginModel = LoginModel(username, password)
                 lifecycleScope.launch {
-                    loginViewModel.onLoginUser(login)
+                    loginViewModel.onLoginUser(loginModel)
                 }
             } else {
                 Toast.makeText(context, "Ningun campo puede estar vacio", Toast.LENGTH_SHORT).show()

@@ -6,7 +6,7 @@ data class LoginResponse(
     @SerializedName("id") val id: Long,
     @SerializedName("username") val username: String,
     @SerializedName("email") val email: String,
-    @SerializedName("type") val type: String = "Bearer",
+    @SerializedName("type") val type: String,
     @SerializedName("token") val token: String,
-    @SerializedName("role") val roles: ArrayList<String>
+    @SerializedName("roles") val roles: ArrayList<String>
 )

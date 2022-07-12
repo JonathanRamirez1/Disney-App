@@ -16,7 +16,7 @@ import androidx.navigation.Navigation
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.jonathan.disneyapp.R
 import com.jonathan.disneyapp.databinding.FragmentRegisterBinding
-import com.jonathan.disneyapp.data.model.Register
+import com.jonathan.disneyapp.data.model.RegisterModel
 import com.jonathan.disneyapp.ui.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var navController: NavController
-    private lateinit var register: Register
+    private lateinit var registerModel: RegisterModel
 
     private val registerViewModel: RegisterViewModel by viewModels()
 
@@ -137,9 +137,9 @@ class RegisterFragment : Fragment() {
     ) {
         if (userRole.isChecked || adminRole.isChecked) {
             //TODO DEUDA TECNICA: INJECTAR EL MODEL USER
-            register = Register(username, email, password, setupRoles(userRole, adminRole))
+            registerModel = RegisterModel(username, email, password, setupRoles(userRole, adminRole))
             lifecycleScope.launch {
-                registerViewModel.onRegisterUser(register)
+                registerViewModel.onRegisterUser(registerModel)
             }
         } else {
             Toast.makeText(context, "Selecciona por lo menos un Role", Toast.LENGTH_SHORT).show()
